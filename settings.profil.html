@@ -910,12 +910,17 @@
         // Fonction pour envoyer les données au webhook
         async function sendToWebhook(data) {
             try {
+                // Créer un FormData pour envoyer les données
+                const formData = new FormData();
+                
+                // Ajouter chaque champ du formulaire
+                for (const [key, value] of Object.entries(data)) {
+                    formData.append(key, value || '');
+                }
+                
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
+                    body: formData
                 });
                 console.log('✅ Données envoyées avec succès');
                 return response.ok;
